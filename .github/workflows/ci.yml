@@ -76,4 +76,4 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       # Passa sempre solo per scopi dimostrativi, se si rimuove "|| true" in un contesto reale
       - name: Run Security Audit
-        run: pnpm audit --audit-level=critical || true 
+        run: pnpm audit --audit-level=critical
