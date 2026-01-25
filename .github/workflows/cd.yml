@@ -1,8 +1,12 @@
 name: CD - Deploy to Production
 
 on:
+  workflow_run:
+    workflows: ["CI - Code Quality Check"]
+    types:
+      - completed
+    branches: ["production", "main"]
   push:
-    branches: ["production", "main"] 
     tags:
       - "v*.*.*"
   workflow_dispatch:
@@ -18,6 +22,8 @@ jobs:
   build-and-push:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
+    # Esegui solo se la CI è passata con successo
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' || github.event_name == 'push' }}
     permissions:
       contents: read
       packages: write
